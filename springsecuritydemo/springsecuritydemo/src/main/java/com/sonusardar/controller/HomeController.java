@@ -1,20 +1,33 @@
 package com.sonusardar.controller;
 
 
+import com.sonusardar.dto.LoginDto;
 import com.sonusardar.entity.UserDtls;
 import com.sonusardar.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpSession;
+
+
+
 import java.security.Principal;
 
 
 @Controller
 public class HomeController {
+
+
+   @Autowired
+    AuthenticationManager authenticationManager;
 
     @Autowired
     private UserService userService;
@@ -38,7 +51,9 @@ public class HomeController {
     @PostMapping("/createUser")
     public String createuser(@ModelAttribute UserDtls user, HttpSession session) {
 
-        // System.out.println(user);
+        System.out.println("createUser call");
+
+         System.out.println(user);
 
         boolean f = userService.checkEmail(user.getEmail());
 
@@ -56,6 +71,23 @@ public class HomeController {
         }
 
         return "redirect:/register";
+    }
+
+    @PostMapping("/loginHandle")
+    public ResponseEntity LoginHandle (@ModelAttribute LoginDto loginDto){
+
+        System.out.println(loginDto.toString());
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
+
+        System.out.println(authentication);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
+
+        return ResponseEntity.ok("ok");
     }
 
 }
