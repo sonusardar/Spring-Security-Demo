@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 my-5">
+                <th:block th:each="b,i :${blogs} ">
+                    <div class="card my-5" >
+                        <div class="card-body">
+                            <h5 class="card-title">Post By [[${b.auther.fullName}]]</h5>
+                            <p class="card-text">[[${b.title}]]</p>
+                            <a th:href="@{${b.id}}" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+</body>
+</html>

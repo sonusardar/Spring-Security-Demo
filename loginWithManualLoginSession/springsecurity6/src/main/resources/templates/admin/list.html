@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div sec:authorize="isAuthenticated()">
+                        Authenticated as <span sec:authentication="name"></span></div>
+
+
+                    <div class="card-header">
+                        Blog List
+                    </div>
+                    <div class="card-body">
+                        <table class="table ">
+                            <thead>
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="b,i: ${blog}">
+
+                                <tr>
+                                    <td>[[${i.index+1}]]</td>
+                                    <td>[[${b.title}]]</td>
+                                    <td>[[${b.description}]]</td>
+                                </tr>
+
+                            </th:block>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>
